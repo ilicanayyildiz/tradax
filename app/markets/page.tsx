@@ -35,7 +35,7 @@ export default function MarketsPage() {
 
   useEffect(() => {
     fetchData()
-    const id = setInterval(fetchData, 60_000) // refresh every 60s
+    const id = setInterval(fetchData, 45_000) // refresh every 45s
     return () => clearInterval(id)
   }, [])
 

@@ -48,7 +48,7 @@ export async function GET() {
       let prevRates: Record<string, number> | undefined
 
       try {
-        const tsRes = await fetch(`https://api.frankfurter.app/${sStr}..${eStr}?from=USD&to=${symbols}`, { next: { revalidate: 60 } })
+        const tsRes = await fetch(`https://api.frankfurter.app/${sStr}..${eStr}?from=USD&to=${symbols}`, { next: { revalidate: 45 } })
         const ts = await tsRes.json()
         const dates = Object.keys(ts?.rates || {}).sort()
         if (dates.length >= 2) {
@@ -62,8 +62,8 @@ export async function GET() {
       // Eğer timeseries başarısızsa exchangerate.host ile dene
       if (!latestRates || !prevRates) {
         const [latestRes, yRes] = await Promise.all([
-          fetch(`https://api.exchangerate.host/latest?base=USD&symbols=${symbols}`, { next: { revalidate: 60 } }),
-          fetch(`https://api.exchangerate.host/latest?base=USD&symbols=${symbols}`, { next: { revalidate: 60 } }),
+          fetch(`https://api.exchangerate.host/latest?base=USD&symbols=${symbols}`, { next: { revalidate: 45 } }),
+          fetch(`https://api.exchangerate.host/latest?base=USD&symbols=${symbols}`, { next: { revalidate: 45 } }),
         ])
         const l = await latestRes.json()
         const p = await yRes.json()
@@ -219,7 +219,7 @@ export async function GET() {
     try {
       const goldResponse = await fetch(
         'https://api.coingecko.com/api/v3/simple/price?ids=pax-gold&vs_currencies=usd&include_24hr_change=true',
-        { next: { revalidate: 300 } } // 5 dakika cache (yavaş hareket eder)
+        { next: { revalidate: 60 } }
       )
       const goldData = await goldResponse.json()
 
@@ -243,7 +243,7 @@ export async function GET() {
     try {
       const oilResponse = await fetch(
         'https://api.coingecko.com/api/v3/simple/price?ids=petroleum&vs_currencies=usd&include_24hr_change=true',
-        { next: { revalidate: 300 } }
+        { next: { revalidate: 60 } }
       )
       const oilData = await oilResponse.json()
 
