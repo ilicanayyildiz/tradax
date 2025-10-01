@@ -105,14 +105,36 @@ export async function DELETE(
       )
     }
 
-    // Check user role (only editors and admins can delete)
+    // Check user role and article ownership
     const { data: profile } = await supabase
       .from('profiles')
       .select('role')
       .eq('id', user.id)
       .single()
 
-    if (!profile || !['admin', 'editor'].includes(profile.role)) {
+    if (!profile) {
+      return NextResponse.json(
+        { success: false, error: 'Profile not found' },
+        { status: 403 }
+      )
+    }
+
+    // Check if user can delete (admin/editor can delete any, writer can delete own)
+    if (profile.role === 'writer') {
+      // For writers, check if they own the article
+      const { data: article } = await supabase
+        .from('articles')
+        .select('author_id')
+        .eq('id', params.id)
+        .single()
+
+      if (!article || article.author_id !== user.id) {
+        return NextResponse.json(
+          { success: false, error: 'Insufficient permissions' },
+          { status: 403 }
+        )
+      }
+    } else if (!['admin', 'editor'].includes(profile.role)) {
       return NextResponse.json(
         { success: false, error: 'Insufficient permissions' },
         { status: 403 }

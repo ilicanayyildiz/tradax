@@ -2,7 +2,7 @@
 CREATE EXTENSION IF NOT EXISTS "uuid-ossp";
 
 -- Create custom types
-CREATE TYPE user_role AS ENUM ('admin', 'editor', 'writer', 'reader');
+CREATE TYPE user_role AS ENUM ('admin', 'editor', 'user');
 
 -- Profiles table (extends auth.users)
 CREATE TABLE profiles (
@@ -10,7 +10,7 @@ CREATE TABLE profiles (
   email TEXT UNIQUE NOT NULL,
   full_name TEXT,
   avatar_url TEXT,
-  role user_role DEFAULT 'reader',
+  role user_role DEFAULT 'user',
   bio TEXT,
   social_links JSONB DEFAULT '{}',
   created_at TIMESTAMP WITH TIME ZONE DEFAULT TIMEZONE('utc', NOW()),
@@ -94,14 +94,14 @@ CREATE POLICY "Published articles are viewable by everyone"
   ON articles FOR SELECT 
   USING (is_published = true OR auth.uid() = author_id);
 
-CREATE POLICY "Writers can create articles" 
+CREATE POLICY "Users can create articles" 
   ON articles FOR INSERT 
   WITH CHECK (
     auth.uid() = author_id AND 
     EXISTS (
       SELECT 1 FROM profiles 
       WHERE id = auth.uid() 
-      AND role IN ('writer', 'editor', 'admin')
+      AND role IN ('user', 'editor', 'admin')
     )
   );
 

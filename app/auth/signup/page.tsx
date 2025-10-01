@@ -48,6 +48,23 @@ export default function SignUpPage() {
       if (error) throw error
 
       if (data.user) {
+        // Ensure profile exists and set role to writer
+        const { error: profileError } = await supabase
+          .from('profiles')
+          .upsert(
+            {
+              id: data.user.id,
+              email: data.user.email || '',
+              full_name: fullName,
+              role: 'writer',
+            },
+            { onConflict: 'id' }
+          )
+
+        if (profileError) {
+          console.error('Profile upsert error:', profileError)
+        }
+
         toast.success('Account created successfully! You can now login.')
         router.push('/auth/login')
       }

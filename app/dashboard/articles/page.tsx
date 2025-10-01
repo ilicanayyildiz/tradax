@@ -116,7 +116,7 @@ export default async function ArticlesManagementPage() {
                           >
                             <Edit className="h-4 w-4" />
                           </Link>
-                          {(profile.role === 'admin' || profile.role === 'editor') && (
+                          {(profile.role === 'admin' || profile.role === 'editor' || profile.role === 'writer') && (
                             <DeleteArticleButton id={article.id} />
                           )}
                         </div>
