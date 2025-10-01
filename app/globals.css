@@ -1,0 +1,137 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --foreground-rgb: 0, 0, 0;
+  --background-start-rgb: 255, 255, 255;
+  --background-end-rgb: 255, 255, 255;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --foreground-rgb: 255, 255, 255;
+    --background-start-rgb: 15, 23, 42;
+    --background-end-rgb: 15, 23, 42;
+  }
+}
+
+body {
+  color: rgb(var(--foreground-rgb));
+  background: linear-gradient(
+      to bottom,
+      transparent,
+      rgb(var(--background-end-rgb))
+    )
+    rgb(var(--background-start-rgb));
+}
+
+@layer base {
+  h1 {
+    @apply text-4xl font-bold tracking-tight;
+  }
+  h2 {
+    @apply text-3xl font-semibold tracking-tight;
+  }
+  h3 {
+    @apply text-2xl font-semibold tracking-tight;
+  }
+  h4 {
+    @apply text-xl font-semibold tracking-tight;
+  }
+  h5 {
+    @apply text-lg font-semibold tracking-tight;
+  }
+  h6 {
+    @apply text-base font-semibold tracking-tight;
+  }
+}
+
+@layer components {
+  .container {
+    @apply mx-auto max-w-7xl px-4 sm:px-6 lg:px-8;
+  }
+  
+  .btn {
+    @apply inline-flex items-center justify-center rounded-md px-4 py-2 text-sm font-medium transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50;
+  }
+  
+  .btn-primary {
+    @apply bg-primary-600 text-white hover:bg-primary-700 focus-visible:ring-primary-600;
+  }
+  
+  .btn-secondary {
+    @apply bg-navy-200 text-navy-900 hover:bg-navy-300 focus-visible:ring-navy-600 dark:bg-navy-700 dark:text-navy-100 dark:hover:bg-navy-600;
+  }
+  
+  .btn-outline {
+    @apply border border-navy-300 bg-transparent hover:bg-navy-100 dark:border-navy-700 dark:hover:bg-navy-800;
+  }
+  
+  .card {
+    @apply rounded-lg border border-navy-200 bg-white shadow-sm dark:border-navy-800 dark:bg-navy-900;
+  }
+  
+  .input {
+    @apply flex h-10 w-full rounded-md border border-navy-300 bg-white px-3 py-2 text-sm ring-offset-white file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-navy-400 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary-600 focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50 dark:border-navy-700 dark:bg-navy-950 dark:ring-offset-navy-950 dark:placeholder:text-navy-500;
+  }
+  
+  .label {
+    @apply text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70;
+  }
+  
+  .prose {
+    @apply max-w-none;
+  }
+  
+  .prose h1,
+  .prose h2,
+  .prose h3,
+  .prose h4,
+  .prose h5,
+  .prose h6 {
+    @apply font-bold;
+  }
+  
+  .prose h1 {
+    @apply text-3xl;
+  }
+  
+  .prose h2 {
+    @apply text-2xl;
+  }
+  
+  .prose h3 {
+    @apply text-xl;
+  }
+  
+  .prose p {
+    @apply my-4;
+  }
+  
+  .prose a {
+    @apply text-primary-600 no-underline hover:underline;
+  }
+  
+  .prose img {
+    @apply rounded-lg;
+  }
+  
+  .prose ul,
+  .prose ol {
+    @apply my-4 ml-6;
+  }
+  
+  .prose li {
+    @apply my-2;
+  }
+  
+  .prose ul {
+    @apply list-disc;
+  }
+  
+  .prose ol {
+    @apply list-decimal;
+  }
+}
+
